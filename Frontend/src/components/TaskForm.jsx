@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createTask } from "../api/taskApi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TaskForm = ({ onTaskCreated }) => {
   const [title, setTitle] = useState("");
@@ -19,7 +21,6 @@ const TaskForm = ({ onTaskCreated }) => {
     "Study",
     "Others",
   ];
-
   const submitHandler = async (e) => {
     e.preventDefault();
     const taskData = {
@@ -31,11 +32,25 @@ const TaskForm = ({ onTaskCreated }) => {
       dueDate,
       isRecurring,
       recurrenceInterval,
+      ...(isRecurring ? { nextOccurrence: dueDate || startDate } : {}),
     };
     try {
       await createTask(taskData, token);
       onTaskCreated();
-      // Reset form fields after submit
+
+      // ✅ Success toast
+      toast.success("✅ Task created successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+
+      // 🔁 Info toast if recurring
+      if (isRecurring) {
+        toast.info(`🔁 This task will repeat ${recurrenceInterval}`, {
+          position: "top-right",
+          autoClose: 4000,
+        });
+      }
       setTitle("");
       setCategory("");
       setPriority("Medium");
@@ -46,6 +61,12 @@ const TaskForm = ({ onTaskCreated }) => {
       setRecurrenceInterval("daily");
     } catch (err) {
       console.error(err);
+
+      // ❌ Error toast
+      toast.error("❌ Failed to create task. Please try again.", {
+        position: "top-right",
+        autoClose: 4000,
+      });
     }
   };
 

@@ -25,6 +25,7 @@ exports.registerUser = async (req, res) => {
         username: user.username,
         email: user.email,
       }),
+      username: user.username,
     });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -47,6 +48,7 @@ exports.loginUser = async (req, res) => {
           username: user.username,
           email: user.email,
         }),
+        username: user.username,
       });
     } else {
       res.status(401).json({ message: "Invalid email or password" });

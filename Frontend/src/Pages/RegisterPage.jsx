@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { register } from "../api/authAPI";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const RegisterPage = ({ setLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -14,8 +15,11 @@ const RegisterPage = ({ setLoggedIn }) => {
     try {
       const response = await register({ username, email, password });
       sessionStorage.setItem("token", response.data.token);
-      setLoggedIn(true); // Immediately update loggedIn state
-      navigate("/dashboard");
+      navigate("/");
+      toast.success(`Welcome , ${response.data.username}! `, {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     }
@@ -31,30 +35,60 @@ const RegisterPage = ({ setLoggedIn }) => {
           <p className="mb-4 text-red-600 font-medium text-center">{error}</p>
         )}
         <form onSubmit={submitHandler} className="space-y-5">
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
+          <div>
+            <label
+              htmlFor="username"
+              className="block mb-1 font-semibold text-gray-700"
+            >
+              Username
+            </label>
+            <input
+              id="username"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="email"
+              className="block mb-1 font-semibold text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              className="block mb-1 font-semibold text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+
           <button
             type="submit"
             className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"

@@ -1,6 +1,6 @@
 import axios from "axios";
 const config = (token) => {
-  console.log("Token being passed:", token); // ✅ Debug
+  console.log("Token being passed:", token);
   return {
     headers: { Authorization: `Bearer ${token}` },
   };

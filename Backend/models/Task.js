@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const TaskSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    username: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String },
     category: { type: String },
@@ -19,7 +20,11 @@ const TaskSchema = new mongoose.Schema(
     startDate: { type: Date },
     dueDate: { type: Date },
     isRecurring: { type: Boolean, default: false },
-    recurrenceInterval: { type: String }, // e.g. 'daily', 'weekly', 'monthly'
+    recurrenceInterval: {
+      type: String,
+      enum: ["", "daily", "weekly", "monthly"],
+    },
+    nextOccurrence: { type: Date },
   },
   { timestamps: true }
 );

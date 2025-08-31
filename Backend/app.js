@@ -15,7 +15,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-// app.options("*", cors(corsOptions));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/tasks", require("./routes/taskRoutes"));
 app.use((req, res) => {

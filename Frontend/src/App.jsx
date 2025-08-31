@@ -8,46 +8,16 @@ import {
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import Dashboard from "./Pages/Dashboard";
+import DashboardLayout from "./components/DashboardLayout";
 
 function App() {
-  // React state for login status
-  const [loggedIn, setLoggedIn] = useState(!!sessionStorage.getItem("token"));
-
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route
-          path="/login"
-          element={
-            loggedIn ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <LoginPage setLoggedIn={setLoggedIn} />
-            )
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            loggedIn ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <RegisterPage setLoggedIn={setLoggedIn} />
-            )
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            loggedIn ? (
-              <Dashboard setLoggedIn={setLoggedIn} />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<DashboardLayout />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );

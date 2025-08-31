@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TaskList from "../components/TaskList";
 import TaskForm from "../components/TaskForm";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Dashboard = () => {
   const [refresh, setRefresh] = useState(false);
@@ -10,8 +13,17 @@ const Dashboard = () => {
   const onTaskCreated = () => setRefresh(!refresh);
 
   const handleLogout = () => {
-    sessionStorage.removeItem("token"); // Remove auth token
-    navigate("/login"); // Redirect to login page
+    sessionStorage.removeItem("token");
+
+    toast.success("You have been logged out successfully! 👋 ", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+
+    // Small delay so toast shows before redirect
+    setTimeout(() => {
+      navigate("/login");
+    }, 1200);
   };
 
   return (
