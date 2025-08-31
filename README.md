@@ -15,6 +15,7 @@ Frontend
 
 
 
+***I have added the .env files also , i will change the password after a week
 
 
 
@@ -35,3 +36,5 @@ Backend: Node.js, Express.js
 DB: MongoDB + Mongoose
 Auth: JWT (access token)
 Scheduling: node‑cron for recurring task generation
+
+
